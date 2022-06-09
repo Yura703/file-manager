@@ -1,7 +1,18 @@
 import { argv } from 'process';
-import { getPathFiles } from './src/getPathFiles.js';
+import {
+  NotCriticalError,
+  colorizeMessages,
+  command,
+  calculateHash,
+  compressFile,
+  getEOL, getCPUs, getHomeDir, getArchitecture, getUserName,
+  getPathFiles,
+  getToWorkingDirectory,
+  navigationByDir,
+  cat, add, rn, cp, mv, rm,  
+} from './src/index.js';
 
-import { command } from './src/constants.js';
+//сделать отлов кастомной ошибки, что бы программа не крашилась
 
 try {
   const param = argv[2].split('=');
@@ -13,12 +24,17 @@ try {
     process.stdout.write(welcomMessage);
 
     process.stdin.on('data', (chunk) => {
-      if(chunk.toString().slice(0, -2) == '.exit') {
+      const commandFromChunk = chunk.toString().slice(0, -2).split(' ')[0];
+      if(commandFromChunk == '.exit') {
         process.stdin.emit('exit');
       }
 
-      if(!command.includes(chunk.toString().slice(0, -2))) {
-        throw new Error('Invalid input');
+      if(!command.includes(commandFromChunk)) {
+        throw new NotCriticalError('Invalid input');
+      }
+
+      if (commandFromChunk === 'hash') {
+        console.log('hash111');
       }
     });  
 
@@ -39,7 +55,13 @@ try {
   }
 
 } catch (error) {
-  console.log('Error:' + error);
+console.log(error.name);
+  // if (error.name === "NotCriticalError") {
+  //   console.log('Error11:' + error);
+  // } else {
+  //   console.log('Error:' + error);
+  //   process.exit(1);
+  // }
 }
 
 //const path = getPathFiles(import.meta.url, ['constants.js']);

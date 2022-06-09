@@ -1,1 +1,3 @@
-//getToWorkingDirectory.js
+export const getToWorkingDirectory = () => {
+  
+}

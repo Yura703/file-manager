@@ -8,11 +8,7 @@ export const command = [
   'cp',
   'mv',
   'rm',
-  'os --EOL',
-  'os --cpus',
-  'os --homedir',
-  'os --username',
-  'os --architecture',
+  'os',
   'hash',
   'compress',
   'decompress'
