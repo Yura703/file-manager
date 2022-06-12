@@ -1,6 +1,7 @@
 import { argv } from 'process';
 import { homedir } from 'os';
 import { resolve } from 'path';
+import * as readline from 'readline';
 import {
   NotCriticalError,
   colorizeMessages,
@@ -15,8 +16,6 @@ import {
 } from './src/index.js';
 import { ls, up } from './src/navigationByDir.js';
 
-//сделать отлов кастомной ошибки, что бы программа не крашилась
-
 try {
   const param = argv[2].split('=');
   let workDir = await homedir() ;
@@ -24,6 +23,12 @@ try {
   if (param[0] === '--username') {
     const welcomMessage = `Welcome to the File Manager, ${param[1]}!\n`;
     const buyMessage = `Thank you for using File Manager, ${param[1]}!`
+
+    // const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+
+    // const answer = await rl.question(
+    //   'What do you think of Node.js? '
+    // );    
 
     process.stdout.write(welcomMessage);  
     process.stdout.write( await getToWorkingDirectory());     
@@ -47,9 +52,9 @@ try {
         console.log(colorizeMessages('Invalid input', 'FgRed'));
       }
 
-      if (commandFromChunk === 'hash') {
-        console.log('hash111');
-      }
+      // if (commandFromChunk === 'hash') {
+      //   console.log('hash111');
+      // }
 
       if (commandFromChunk === 'ls') {
         ls(workDir);
@@ -61,13 +66,13 @@ try {
          workDir = up(workDir);
          getToWorkingDirectory( workDir).then(data => console.log(data));
       }
-console.log(commandFromChunk);
-      if (commandFromChunk.split('cd').length > 2) {
-        console.log(commandFromChunk.split('cd'));
-        const path = resolve(commandFromChunk.split('cd')[1]);
-        workDir = cd(path);
-        getToWorkingDirectory( workDir).then(data => console.log(data));
-     }
+
+    //   if (commandFromChunk.split('cd').length > 2) {
+    //     console.log(commandFromChunk.split('cd'));
+    //     const path = resolve(commandFromChunk.split('cd')[1]);
+    //     workDir = cd(path);
+    //     getToWorkingDirectory( workDir).then(data => console.log(data));
+    //  }
 
 
     });  
